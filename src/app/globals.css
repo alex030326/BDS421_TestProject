@@ -1,0 +1,40 @@
+/* globals.css */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Dark Mode Hintergrund */
+body {
+    @apply bg-gray-900 text-white;
+}
+
+/* Container für den Chat */
+.chat-container {
+    @apply flex flex-col items-center justify-center min-h-screen;
+}
+
+/* Chat-Box */
+.chat-box {
+    @apply bg-gray-800 p-6 rounded-xl shadow-lg w-full max-w-lg;
+}
+
+/* Eingabefeld */
+.input-field {
+    @apply flex-1 bg-gray-700 p-3 rounded-lg text-white placeholder-gray-400 outline-none;
+}
+
+/* Senden-Button */
+.send-button {
+    @apply bg-blue-500 hover:bg-blue-600 p-3 rounded-lg text-white transition flex items-center justify-center;
+}
+
+/* Antwortfeld */
+.response-box {
+    @apply bg-gray-700 p-4 rounded-lg border border-gray-600 shadow-md mt-4;
+}
+
+/* Ladeanimation */
+.loading-text {
+    @apply text-center text-gray-400 animate-pulse;
+}
