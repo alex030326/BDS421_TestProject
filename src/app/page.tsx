@@ -1,7 +1,7 @@
 "use client";
 
-import { gql, useLazyQuery } from "@apollo/client";
-import { useState } from "react";
+import { gql, useLazyQuery, useQuery } from "@apollo/client";
+import { useState, useEffect } from "react";
 import { FaPaperPlane } from "react-icons/fa";
 
 const ASK_AI = gql`
@@ -10,17 +10,25 @@ const ASK_AI = gql`
   }
 `;
 
+const GET_CHAT_HISTORY = gql`
+  query GetChatHistory {
+    getChatHistory
+  }
+`;
+
 export default function Home() {
     const [input, setInput] = useState("");
     const [askAI, { data, loading }] = useLazyQuery(ASK_AI);
+    const { data: historyData, refetch } = useQuery(GET_CHAT_HISTORY);
+
+    useEffect(() => {
+        refetch(); // Aktualisiert die Historie nach jeder Anfrage
+    }, [data]);
 
     return (
         <div className="chat-container">
             <div className="chat-box">
-                <div className="chat-title">
-                    <span>🤖</span>
-                    <h1>KI Chat</h1>
-                </div>
+                <h1 className="text-3xl font-bold text-center mb-4">🤖 KI Chat</h1>
                 <div className="message-container">
                     <div className="input-group">
                         <input
@@ -31,7 +39,10 @@ export default function Home() {
                         />
                         <button
                             className="send-button"
-                            onClick={() => askAI({ variables: { query: input } })}
+                            onClick={() => {
+                                askAI({ variables: { query: input } });
+                                setInput("");
+                            }}
                         >
                             <FaPaperPlane />
                         </button>
@@ -42,6 +53,19 @@ export default function Home() {
                             <p>{data.askAI}</p>
                         </div>
                     )}
+                    {/* Historie anzeigen */}
+                    <div className="history-container">
+                        <h2 className="history-title">🔍 Letzte Anfragen</h2>
+                        <ul className="history-list">
+                            {historyData?.getChatHistory?.map(([question, answer], index) => (
+                                <li key={index} className="history-item">
+                                    <p className="question">❓ {question}</p>
+                                    <p className="answer">💡 {answer}</p>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
                 </div>
             </div>
         </div>
