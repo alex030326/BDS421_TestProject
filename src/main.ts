@@ -1,15 +1,21 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: "http://localhost:3001",  // Next.js Frontend-URL
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true, // Falls Cookies oder Authentifizierung verwendet wird
+    origin: process.env.CORS_ORIGIN,
+    methods: process.env.CORS_METHODS,
+    credentials: process.env.CORS_CREDENTIALS,
   });
 
-  await app.listen(3000);
+  const port = Number(process.env.BACKEND_PORT);
+  await app.listen(port);
+
+  console.log(`Backend läuft auf: http://localhost:${port}`);
 }
 bootstrap();
