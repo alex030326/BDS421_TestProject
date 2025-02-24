@@ -17,9 +17,12 @@ export default function Home() {
     return (
         <div className="chat-container">
             <div className="chat-box">
-                <h1 className="text-3xl font-bold text-center mb-4">🤖 KI Chat</h1>
-                <div className="space-y-4">
-                    <div className="flex space-x-2">
+                <div className="chat-title">
+                    <span>🤖</span>
+                    <h1>KI Chat</h1>
+                </div>
+                <div className="message-container">
+                    <div className="input-group">
                         <input
                             className="input-field"
                             value={input}
